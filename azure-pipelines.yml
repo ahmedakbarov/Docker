@@ -10,15 +10,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+
 
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Pay-As-You-Go-Research (ad599f39-d79e-4a58-b465-008cedcedd30)'
     scriptType: 'bash'
     scriptLocation: 'inlineScript'
-    inlineScript: 'az group create -l westeurope -n $(RG)'
+    inlineScript: 'az group create --name $(RG) --location  westeurope '
 - task: AzureResourceManagerTemplateDeployment@3
   inputs:
     deploymentScope: 'Resource Group'
