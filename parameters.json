@@ -40,9 +40,7 @@
         },
         "virtualMachineName": {
             "value": "container01"
-        },
-        "virtualMachineRG": {
-            "value": "RG01"
+       
         },
         "osDiskType": {
             "value": "Standard_LRS"
