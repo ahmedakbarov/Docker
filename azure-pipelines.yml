@@ -12,30 +12,10 @@ pool:
 steps:
 
 
-- task: AzureCLI@2
-  inputs:
-    azureSubscription: 'Pay-As-You-Go-Research (ad599f39-d79e-4a58-b465-008cedcedd30)'
-    scriptType: 'bash'
-    scriptLocation: 'inlineScript'
-    inlineScript: 'az group create --name $(RG) --location  westeurope '
-- task: AzureResourceManagerTemplateDeployment@3
-  inputs:
-    deploymentScope: 'Resource Group'
-    azureResourceManagerConnection: 'Pay-As-You-Go-Research (ad599f39-d79e-4a58-b465-008cedcedd30)-2496'
-    subscriptionId: 'ad599f39-d79e-4a58-b465-008cedcedd30'
-    action: 'Create Or Update Resource Group'
-    resourceGroupName: '$(RG)'
-    location: 'West Europe'
-    templateLocation: 'Linked artifact'
-    csmFile: 'template.json'
-    csmParametersFile: 'parameters.json'
-    deploymentMode: 'Incremental'
 
-- task: ARM Outputs@5
+- task: Docker@2
   inputs:
-    ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
-    ConnectedServiceNameARM: 'Pay-As-You-Go-Research (ad599f39-d79e-4a58-b465-008cedcedd30)-2496'
-    resourceGroupName: 'Contain'
-    prefix: 'publicip'
-    outputNames: 'publicip'
-    whenLastDeploymentIsFailed: 'latestSuccesful'
+    containerRegistry: 'ahmepm'
+    command: 'buildAndPush'
+    Dockerfile: '**/Dockerfile'
+
