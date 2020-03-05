@@ -148,7 +148,7 @@
         },
         "ipAddress":{
             "type":"string",
-            "value" : "[reference(parameters('publicIpAddressName')).properties.ipAddress]"
+            "value" : "[reference(parameters('publicIpAddressName')).ipAddress]"
 
         }
     }
