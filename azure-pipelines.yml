@@ -26,9 +26,9 @@ steps:
     scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: |
-      RES_GROUP="$(RG)"
-      ACR_NAME="$(regname)"     
-      AKV_NAME="$(keyval)"
+      $RES_GROUP="$(RG)"
+      $ACR_NAME="$(regname)"     
+      $AKV_NAME="$(keyval)"
       
       az keyvault create -g $RES_GROUP -n $AKV_NAME
       az keyvault secret set `
