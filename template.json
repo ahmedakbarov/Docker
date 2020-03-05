@@ -1,155 +1,97 @@
 {
-    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
-            "type": "String"
+            "type": "string"
         },
-        "networkInterfaceName": {
-            "type": "String"
+        "containerName": {
+            "type": "string"
         },
-        "subnetName": {
-            "type": "String"
+        "imageType": {
+            "type": "string",
+            "allowedValues": [
+                "Public",
+                "Private"
+            ]
         },
-        "virtualNetworkName": {
-            "type": "String"
+        "imageName": {
+            "type": "string"
         },
-        "addressPrefixes": {
-            "type": "Array"
+        "osType": {
+            "type": "string",
+            "allowedValues": [
+                "Linux",
+                "Windows"
+            ]
         },
-        "subnets": {
-            "type": "Array"
+        "numberCpuCores": {
+            "type": "string"
         },
-        "publicIpAddressName": {
-            "type": "String"
+        "memory": {
+            "type": "string"
         },
-        "publicIpAddressType": {
-            "type": "String"
+        "restartPolicy": {
+            "type": "string",
+            "allowedValues": [
+                "OnFailure",
+                "Always",
+                "Never"
+            ]
         },
-        "publicIpAddressSku": {
-            "type": "String"
+        "imageRegistryLoginServer": {
+            "type": "string"
         },
-        "virtualMachineName": {
-            "type": "String"
+        "imageUsername": {
+            "type": "string"
         },
-        "osDiskType": {
-            "type": "String"
+        "imagePassword": {
+            "type": "secureString"
         },
-        "virtualMachineSize": {
-            "type": "String"
+        "ipAddressType": {
+            "type": "string"
         },
-        "adminUsername": {
-            "type": "String"
-        },
-        "adminPassword": {
-            "type": "SecureString"
+        "ports": {
+            "type": "array"
         }
-    },
-    "variables": {
-        "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
     },
     "resources": [
         {
-            "type": "Microsoft.Network/networkInterfaces",
-            "apiVersion": "2019-07-01",
-            "name": "[parameters('networkInterfaceName')]",
             "location": "[parameters('location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
-                "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]"
-            ],
+            "name": "[parameters('containerName')]",
+            "type": "Microsoft.ContainerInstance/containerGroups",
+            "apiVersion": "2018-10-01",
             "properties": {
-                "ipConfigurations": [
+                "containers": [
                     {
-                        "name": "ipconfig1",
+                        "name": "[parameters('containerName')]",
                         "properties": {
-                            "subnet": {
-                                "id": "[variables('subnetRef')]"
+                            "image": "[parameters('imageName')]",
+                            "resources": {
+                                "requests": {
+                                    "cpu": "[int(parameters('numberCpuCores'))]",
+                                    "memoryInGB": "[float(parameters('memory'))]"
+                                }
                             },
-                            "privateIPAllocationMethod": "Dynamic",
-                            "publicIpAddress": {
-                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
-                            }
+                            "ports": "[parameters('ports')]"
                         }
                     }
-                ]
-            }
-        },
-        {
-            "type": "Microsoft.Network/virtualNetworks",
-            "apiVersion": "2019-09-01",
-            "name": "[parameters('virtualNetworkName')]",
-            "location": "[parameters('location')]",
-            "properties": {
-                "addressSpace": {
-                    "addressPrefixes": "[parameters('addressPrefixes')]"
-                },
-                "subnets": "[parameters('subnets')]"
-            }
-        },
-        {
-            "type": "Microsoft.Network/publicIpAddresses",
-            "apiVersion": "2019-02-01",
-            "name": "[parameters('publicIpAddressName')]",
-            "location": "[parameters('location')]",
-            "sku": {
-                "name": "[parameters('publicIpAddressSku')]"
-            },
-            "properties": {
-                "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
-            }
-        },
-        {
-            "type": "Microsoft.Compute/virtualMachines",
-            "apiVersion": "2019-07-01",
-            "name": "[parameters('virtualMachineName')]",
-            "location": "[parameters('location')]",
-            "dependsOn": [
-                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
-            ],
-            "properties": {
-                "hardwareProfile": {
-                    "vmSize": "[parameters('virtualMachineSize')]"
-                },
-                "storageProfile": {
-                    "osDisk": {
-                        "createOption": "fromImage",
-                        "managedDisk": {
-                            "storageAccountType": "[parameters('osDiskType')]"
-                        }
-                    },
-                    "imageReference": {
-                        "publisher": "OpenLogic",
-                        "offer": "CentOS",
-                        "sku": "7.5",
-                        "version": "latest"
+                ],
+                "restartPolicy": "[parameters('restartPolicy')]",
+                "osType": "[parameters('osType')]",
+                "imageRegistryCredentials": [
+                    {
+                        "server": "[parameters('imageRegistryLoginServer')]",
+                        "username": "[parameters('imageUsername')]",
+                        "password": "[parameters('imagePassword')]"
                     }
-                },
-                "networkProfile": {
-                    "networkInterfaces": [
-                        {
-                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
-                        }
-                    ]
-                },
-                "osProfile": {
-                    "computerName": "[parameters('virtualMachineName')]",
-                    "adminUsername": "[parameters('adminUsername')]",
-                    "adminPassword": "[parameters('adminPassword')]"
+                ],
+                "ipAddress": {
+                    "type": "[parameters('ipAddressType')]",
+                    "ports": "[parameters('ports')]"
                 }
-            }
+            },
+            "tags": {}
         }
-    ],
-    "outputs": {
-        "adminUsername": {
-            "type": "String",
-            "value": "[parameters('adminUsername')]"
-        },
-        "publicip":{
-            "type":"string",
-            "value" : "[reference(parameters('publicIpAddressName')).ipAddress]"
-
-        }
-    }
+    ]
 }
