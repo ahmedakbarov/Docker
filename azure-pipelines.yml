@@ -30,3 +30,10 @@ steps:
     csmFile: 'template.json'
     csmParametersFile: 'parameters.json'
     deploymentMode: 'Incremental'
+
+- task: ARM Outputs@5
+  inputs:
+    ConnectedServiceNameSelector: 'ConnectedServiceNameARM'
+    ConnectedServiceNameARM: 'Pay-As-You-Go-Research (ad599f39-d79e-4a58-b465-008cedcedd30)-2496'
+    resourceGroupName: 'Contain'
+    whenLastDeploymentIsFailed: 'latestSuccesful'
