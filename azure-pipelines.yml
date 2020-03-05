@@ -17,5 +17,5 @@ steps:
   inputs:
     containerRegistry: 'ahmepm'
     command: 'buildAndPush'
-    Dockerfile: '**/Dockerfile'
+    Dockerfile: '**/dockerfile'
 
