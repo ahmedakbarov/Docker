@@ -19,3 +19,9 @@ steps:
     command: 'buildAndPush'
     Dockerfile: '**/dockerfile'
 
+- task: AzureCLI@2
+  inputs:
+    azureSubscription: 'ARMcon'
+    scriptType: 'batch'
+    scriptLocation: 'scriptPath'
+    scriptPath: 'aa.sh'
