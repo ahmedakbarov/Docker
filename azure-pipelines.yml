@@ -23,7 +23,7 @@ steps:
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'ARMcon'
-    scriptType: 'batch'
+    scriptType: 'ps'
     scriptLocation: 'inlineScript'
     inlineScript: |
       RES_GROUP=$(RG)
