@@ -12,10 +12,10 @@ pool:
 steps:
 
 
-
 - task: Docker@2
   inputs:
-    containerRegistry: 'ahmepm'
+    containerRegistry: 'REG-Ahmdepm'
+    repository: 'ahmdepm'
     command: 'buildAndPush'
     Dockerfile: '**/dockerfile'
 
