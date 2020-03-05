@@ -27,6 +27,6 @@ steps:
     resourceGroupName: '$(RG)'
     location: 'West Europe'
     templateLocation: 'Linked artifact'
-    csmFile: 'Template.json'
+    csmFile: 'template.json'
     csmParametersFile: 'parameters.json'
     deploymentMode: 'Complete'
