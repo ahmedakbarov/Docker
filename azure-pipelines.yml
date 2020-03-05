@@ -29,6 +29,7 @@ steps:
       $RES_GROUP="$(RG)"
       $ACR_NAME="$(regname)"     
       $AKV_NAME="$(keyval)"
+      az group create -n $RES_GROUP -l west europe
       
       az keyvault create -g $RES_GROUP -n $AKV_NAME
       az keyvault secret set `
