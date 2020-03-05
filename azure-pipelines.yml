@@ -24,7 +24,7 @@ steps:
     azureResourceManagerConnection: 'Pay-As-You-Go-Research (ad599f39-d79e-4a58-b465-008cedcedd30)-2496'
     subscriptionId: 'ad599f39-d79e-4a58-b465-008cedcedd30'
     action: 'Create Or Update Resource Group'
-    resourceGroupName: ''
+    resourceGroupName: '$(RG)'
     location: 'West Europe'
     templateLocation: 'Linked artifact'
     csmFile: 'Template.json'
