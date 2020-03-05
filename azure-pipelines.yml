@@ -29,4 +29,4 @@ steps:
     templateLocation: 'Linked artifact'
     csmFile: 'template.json'
     csmParametersFile: 'parameters.json'
-    deploymentMode: 'Complete'
+    deploymentMode: 'Incremental'
