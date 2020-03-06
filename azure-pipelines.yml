@@ -42,9 +42,7 @@ steps:
       --vault-name $(keyval) \
       --name $(regname)-pull-usr \
       --value $(az ad sp show --id http://$(regname)-pull --query appId --output tsv)
-      
       ACR_LOGIN_SERVER=$(az acr show --name $(regname) --resource-group Contain --query "loginServer" --output tsv)
-      
       az container create \
       --name container02 \
       -g $RG \
