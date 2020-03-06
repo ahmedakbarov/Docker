@@ -2,5 +2,5 @@ FROM ubuntu:16.04
 COPY . /usr/share/nginx/html
 RUN apt-get  --yes update
 RUN apt-get  --yes install nginx
-RUN sudo /etc/init.d/nginx start
+RUN  /etc/init.d/nginx start
 CMD [ -d 80:8080]
