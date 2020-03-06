@@ -24,7 +24,7 @@ steps:
 - task: AzureCLI@2
   inputs:
     azureSubscription: 'Pay-As-You-Go-Research(ad599f39-d79e-4a58-b465-008cedcedd30)'
-    scriptType: 'bash'
+    scriptType: 'batch'
     scriptLocation: 'inlineScript'
     inlineScript: |
       az group create -n $(RG) -l "west europe"
