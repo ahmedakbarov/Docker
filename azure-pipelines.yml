@@ -47,13 +47,13 @@ steps:
                             ACR_LOGIN_SERVER=$(az acr show --name $(regname) --resource-group Contain --query "loginServer" --output tsv)
                         
                         az container create \
-                            --name container02 \
-                            -g $(RG) \
-                            --os-type Linux \
-                            --image $ACR_LOGIN_SERVER/ahmdepm:$(BuildBuildId) \
-                            --registry-login-server $ACR_LOGIN_SERVER \
-                            --registry-username $(az keyvault secret show --vault-name $(keyval) -n $(regname)-pull-usr --query value -o tsv) \
-                            --registry-password $(az keyvault secret show --vault-name $(keyval) -n $(regname)-pull-pwd --query value -o tsv) \
-                            --dns-name-label ahmdepm453453 \
-                            --query ipAddress.fqdn
+                              --name container02 \
+                              -g $RG \
+                              --os-type Windows \
+                             --image $ACR_LOGIN_SERVER/ahmdepm:$(Build.BuildId) \
+                              --registry-login-server $ACR_LOGIN_SERVER \
+                            --registry-username $(az keyvault secret show --vault-name $keyval -n $regname-pull-usr --query value -o tsv) \
+                              --registry-password $(az keyvault secret show --vault-name $keyval -n $regname-pull-pwd --query value -o tsv) \
+                              --dns-name-label ahmdepm453453 \
+                              --query ipAddress.fqdn
     addSpnToEnvironment: true
