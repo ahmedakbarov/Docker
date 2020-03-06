@@ -1,0 +1,6 @@
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+RUN apt-get update
+RUN apt-get install nginx
+RUN sudo /etc/init.d/nginx start
+CMD [ -d 80:8080]
