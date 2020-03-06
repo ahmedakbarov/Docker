@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'ubuntu-latest'
 
 steps:
 
@@ -17,7 +17,7 @@ steps:
     containerRegistry: 'REGcon'
     repository: 'ahmdepm'
     command: 'buildAndPush'
-    Dockerfile: '**/dockerfile'
+    Dockerfile: '**/dockerfile1'
     tags: '$(Build.BuildId)'
 
 
