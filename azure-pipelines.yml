@@ -14,10 +14,11 @@ steps:
 
 - task: Docker@2
   inputs:
-    containerRegistry: 'REG-Ahmdepm'
+    containerRegistry: 'REGcon'
     repository: 'ahmdepm'
     command: 'buildAndPush'
     Dockerfile: '**/dockerfile'
+    tags: '$(Build.BuildId)'
 
 
 - task: AzureCLI@2
