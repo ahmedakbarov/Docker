@@ -1,4 +1,4 @@
-FROM nginx:alpine
+FROM ubuntu:16.04
 COPY . /usr/share/nginx/html
 RUN apt-get update
 RUN apt-get install nginx
