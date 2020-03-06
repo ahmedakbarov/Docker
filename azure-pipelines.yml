@@ -17,7 +17,7 @@ steps:
     containerRegistry: 'REGcon'
     repository: 'ahmdepm'
     command: 'buildAndPush'
-    Dockerfile: '**/docker1'
+    Dockerfile: '**/dockerfile'
     tags: '$(Build.BuildId)'
 
 
