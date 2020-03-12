@@ -32,6 +32,6 @@ steps:
             yum -y install git
             git clone https://github.com/ahmedakbarov/Docker.git
             cd Docker
-            docker image build -t firstdocker:$(Build.BuildId)
-            docker container run --publish 8000:8080 --detach --name bb firstdocker:$(Build.BuildId)
+            docker image build -t firstdocker
+            docker container run -d --publish 8000:8080 --detach --name bb firstdocker
     readyTimeout: '20000'
