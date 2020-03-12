@@ -181,6 +181,10 @@
         "adminUsername": {
             "type": "string",
             "value": "[parameters('adminUsername')]"
+        },
+        "publicIpAddress": {
+            "type": "string",
+            "value":"[reference(parameters('publicIpAddressName')).ipAddress]"
         }
     }
 }
