@@ -82,7 +82,7 @@
           ]
       },
       "publicIpAddressName": {
-          "value": "docker01-ip"
+          "value": "docker01-pip"
       },
       "publicIpAddressType": {
           "value": "static"
