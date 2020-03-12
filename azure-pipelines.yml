@@ -11,6 +11,19 @@ pool:
 
 steps:
 
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Pay-As-You-Go-Research(ad599f39-d79e-4a58-b465-008cedcedd30)'
+    subscriptionId: 'ad599f39-d79e-4a58-b465-008cedcedd30'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'docker'
+    location: 'West Europe'
+    templateLocation: 'Linked artifact'
+    csmFile: 'template.json'
+    csmParametersFile: 'paramnetrs.json'
+    deploymentMode: 'Incremental'
+
 - task: SSH@0
   inputs:
     sshEndpoint: 'docker01'
