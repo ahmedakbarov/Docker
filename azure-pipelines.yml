@@ -11,14 +11,16 @@ pool:
 
 steps:
 
-- task: SSH@0
+- task: AzureResourceManagerTemplateDeployment@3
   inputs:
-    sshEndpoint: 'docker01'
-    runOptions: 'inline'
-    inline: |
-      yum -y install git
-      git clone https://github.com/ahmedakbarov/Docker.git
-      cd Docker
-      docker image build -t firstdocker:$(Build.BuildId)
-      docker container run --publish 8000:8080 --detach --name bb firstdocker:$(Build.BuildId)
-    readyTimeout: '20000'
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'Pay-As-You-Go-Research(ad599f39-d79e-4a58-b465-008cedcedd30)'
+    subscriptionId: 'ad599f39-d79e-4a58-b465-008cedcedd30'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: 'docker'
+    location: 'West Europe'
+    templateLocation: 'Linked artifact'
+    csmFile: 'template.json'
+    csmParametersFile: 'paramnetrs.json'
+    deploymentMode: 'Incremental'
+    
