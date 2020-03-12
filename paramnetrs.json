@@ -85,7 +85,7 @@
           "value": "docker01-ip"
       },
       "publicIpAddressType": {
-          "value": "Dynamic"
+          "value": "static"
       },
       "publicIpAddressSku": {
           "value": "Basic"
@@ -113,4 +113,5 @@
             "secretName": "azadmin"
           }
     }
+}
 }
