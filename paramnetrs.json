@@ -93,9 +93,7 @@
       "virtualMachineName": {
           "value": "docker01"
       },
-      "virtualMachineRG": {
-          "value": "docker"
-      },
+      
       "osDiskType": {
           "value": "Standard_LRS"
       },
