@@ -40,7 +40,7 @@
                       "sourceAddressPrefix": "*",
                       "sourcePortRange": "*",
                       "destinationAddressPrefix": "*",
-                      "destinationPortRange": "80"
+                      "destinationPortRange": "8000"
                   }
               },
               {
