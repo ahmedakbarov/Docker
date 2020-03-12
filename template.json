@@ -1,97 +1,181 @@
 {
-    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
         "location": {
             "type": "string"
         },
-        "containerName": {
+        "networkInterfaceName": {
             "type": "string"
         },
-        "imageType": {
-            "type": "string",
-            "allowedValues": [
-                "Public",
-                "Private"
-            ]
-        },
-        "imageName": {
+        "networkSecurityGroupName": {
             "type": "string"
         },
-        "osType": {
-            "type": "string",
-            "allowedValues": [
-                "Linux",
-                "Windows"
-            ]
-        },
-        "numberCpuCores": {
-            "type": "string"
-        },
-        "memory": {
-            "type": "string"
-        },
-        "restartPolicy": {
-            "type": "string",
-            "allowedValues": [
-                "OnFailure",
-                "Always",
-                "Never"
-            ]
-        },
-        "imageRegistryLoginServer": {
-            "type": "string"
-        },
-        "imageUsername": {
-            "type": "string"
-        },
-        "imagePassword": {
-            "type": "secureString"
-        },
-        "ipAddressType": {
-            "type": "string"
-        },
-        "ports": {
+        "networkSecurityGroupRules": {
             "type": "array"
+        },
+        "subnetName": {
+            "type": "string"
+        },
+        "virtualNetworkName": {
+            "type": "string"
+        },
+        "addressPrefixes": {
+            "type": "array"
+        },
+        "subnets": {
+            "type": "array"
+        },
+        "publicIpAddressName": {
+            "type": "string"
+        },
+        "publicIpAddressType": {
+            "type": "string"
+        },
+        "publicIpAddressSku": {
+            "type": "string"
+        },
+        "virtualMachineName": {
+            "type": "string"
+        },
+        
+        "osDiskType": {
+            "type": "string"
+        },
+        "virtualMachineSize": {
+            "type": "string"
+        },
+        "adminUsername": {
+            "type": "string"
+        },
+        "adminPassword": {
+            "type": "securestring"
         }
+    },
+
+    "variables": {
+        "nsgId": "[resourceId(resourceGroup().name, 'Microsoft.Network/networkSecurityGroups', parameters('networkSecurityGroupName'))]",
+        "vnetId": "[resourceId(resourceGroup().name,'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+        "subnetRef": "[concat(variables('vnetId'), '/subnets/', parameters('subnetName'))]"
     },
     "resources": [
         {
+            "name": "[parameters('networkInterfaceName')]",
+            "type": "Microsoft.Network/networkInterfaces",
+            "apiVersion": "2019-07-01",
             "location": "[parameters('location')]",
-            "name": "[parameters('containerName')]",
-            "type": "Microsoft.ContainerInstance/containerGroups",
-            "apiVersion": "2018-10-01",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkSecurityGroups/', parameters('networkSecurityGroupName'))]",
+                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]",
+                "[concat('Microsoft.Network/publicIpAddresses/', parameters('publicIpAddressName'))]"
+            ],
             "properties": {
-                "containers": [
+                "ipConfigurations": [
                     {
-                        "name": "[parameters('containerName')]",
+                        "name": "ipconfig1",
                         "properties": {
-                            "image": "[parameters('imageName')]",
-                            "resources": {
-                                "requests": {
-                                    "cpu": "[int(parameters('numberCpuCores'))]",
-                                    "memoryInGB": "[float(parameters('memory'))]"
-                                }
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
                             },
-                            "ports": "[parameters('ports')]"
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIpAddress": {
+                                "id": "[resourceId(resourceGroup().name, 'Microsoft.Network/publicIpAddresses', parameters('publicIpAddressName'))]"
+                            }
                         }
                     }
                 ],
-                "restartPolicy": "[parameters('restartPolicy')]",
-                "osType": "[parameters('osType')]",
-                "imageRegistryCredentials": [
-                    {
-                        "server": "[parameters('imageRegistryLoginServer')]",
-                        "username": "[parameters('imageUsername')]",
-                        "password": "[parameters('imagePassword')]"
+                "networkSecurityGroup": {
+                    "id": "[variables('nsgId')]"
+                }
+            }
+        },
+        {
+            "name": "[parameters('networkSecurityGroupName')]",
+            "type": "Microsoft.Network/networkSecurityGroups",
+            "apiVersion": "2019-02-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "securityRules": "[parameters('networkSecurityGroupRules')]"
+            }
+        },
+        {
+            "name": "[parameters('virtualNetworkName')]",
+            "type": "Microsoft.Network/virtualNetworks",
+            "apiVersion": "2019-09-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": "[parameters('addressPrefixes')]"
+                },
+                "subnets": "[parameters('subnets')]"
+            }
+        },
+        {
+            "name": "[parameters('publicIpAddressName')]",
+            "type": "Microsoft.Network/publicIpAddresses",
+            "apiVersion": "2019-02-01",
+            "location": "[parameters('location')]",
+            "properties": {
+                "publicIpAllocationMethod": "[parameters('publicIpAddressType')]"
+            },
+            "sku": {
+                "name": "[parameters('publicIpAddressSku')]"
+            }
+        },
+        {
+            "name": "[parameters('virtualMachineName')]",
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2019-07-01",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[concat('Microsoft.Network/networkInterfaces/', parameters('networkInterfaceName'))]"
+            ],
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "[parameters('virtualMachineSize')]"
+                },
+                "storageProfile": {
+                    "osDisk": {
+                        "createOption": "fromImage",
+                        "managedDisk": {
+                            "storageAccountType": "[parameters('osDiskType')]"
+                        }
+                    },
+                    "imageReference": {
+                        "publisher": "cognosys",
+                        "offer": "docker-community-edition-with-centos-7-6",
+                        "sku": "docker-community-edition-with-centos-7-6",
+                        "version": "1.2019.0710"
                     }
-                ],
-                "ipAddress": {
-                    "type": "[parameters('ipAddressType')]",
-                    "ports": "[parameters('ports')]"
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', parameters('networkInterfaceName'))]"
+                        }
+                    ]
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachineName')]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
                 }
             },
-            "tags": {}
+            "plan": {
+                "name": "docker-community-edition-with-centos-7-6",
+                "publisher": "cognosys",
+                "product": "docker-community-edition-with-centos-7-6"
+            }
         }
-    ]
+    ],
+    "outputs": {
+        "adminUsername": {
+            "type": "string",
+            "value": "[parameters('adminUsername')]"
+        },
+        "publicIpAddress": {
+            "type": "string",
+            "value":"[reference(parameters('publicIpAddressName')).ipAddress]"
+        }
+    }
 }

@@ -1,0 +1,115 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+      "location": {
+          "value": "westeurope"
+      },
+      "networkInterfaceName": {
+          "value": "docker01717"
+      },
+      "networkSecurityGroupName": {
+          "value": "docker01-nsg"
+      },
+      "networkSecurityGroupRules": {
+          "value": [
+              {
+                  "name": "ssh",
+                  "properties": {
+                      "priority": 1010,
+                      "protocol": "TCP",
+                      "access": "Allow",
+                      "direction": "Inbound",
+                      "sourceApplicationSecurityGroups": [],
+                      "destinationApplicationSecurityGroups": [],
+                      "sourceAddressPrefix": "*",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "22"
+                  }
+              },
+              {
+                  "name": "http",
+                  "properties": {
+                      "priority": 1020,
+                      "protocol": "TCP",
+                      "access": "Allow",
+                      "direction": "Inbound",
+                      "sourceApplicationSecurityGroups": [],
+                      "destinationApplicationSecurityGroups": [],
+                      "sourceAddressPrefix": "*",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "8000"
+                  }
+              },
+              {
+                  "name": "https",
+                  "properties": {
+                      "priority": 1030,
+                      "protocol": "TCP",
+                      "access": "Allow",
+                      "direction": "Inbound",
+                      "sourceApplicationSecurityGroups": [],
+                      "destinationApplicationSecurityGroups": [],
+                      "sourceAddressPrefix": "*",
+                      "sourcePortRange": "*",
+                      "destinationAddressPrefix": "*",
+                      "destinationPortRange": "443"
+                  }
+              }
+          ]
+      },
+      "subnetName": {
+          "value": "default"
+      },
+      "virtualNetworkName": {
+          "value": "docker-vnet"
+      },
+      "addressPrefixes": {
+          "value": [
+              "10.0.0.0/24"
+          ]
+      },
+      "subnets": {
+          "value": [
+              {
+                  "name": "default",
+                  "properties": {
+                      "addressPrefix": "10.0.0.0/24"
+                  }
+              }
+          ]
+      },
+      "publicIpAddressName": {
+          "value": "docker01-pip"
+      },
+      "publicIpAddressType": {
+          "value": "static"
+      },
+      "publicIpAddressSku": {
+          "value": "Basic"
+      },
+      "virtualMachineName": {
+          "value": "docker01"
+      },
+      
+      "osDiskType": {
+          "value": "Standard_LRS"
+      },
+      "virtualMachineSize": {
+          "value": "Standard_B1s"
+      },
+      "adminUsername": {
+          "value": "azadmin"
+      },
+      "adminPassword": {
+        "reference": {
+            "keyVault": {
+            "id": "/subscriptions/ad599f39-d79e-4a58-b465-008cedcedd30/resourceGroups/docker/providers/Microsoft.KeyVault/vaults/keyforssh"
+            },
+            "secretName": "azadmin"
+          }
+    }
+}
+}
