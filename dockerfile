@@ -9,4 +9,4 @@ RUN pip install --upgrade pip
 EXPOSE 8000
 ENTRYPOINT [ "python" ]
 
-CMD ["python", "./app.py" ]
+CMD ["env", " FLASK_APP=app.py", "flask run"]
