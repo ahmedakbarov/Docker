@@ -142,10 +142,10 @@
                         }
                     },
                     "imageReference": {
-                        "publisher": "cognosys",
-                        "offer": "docker-community-edition-with-centos-7-6",
-                        "sku": "docker-community-edition-with-centos-7-6",
-                        "version": "1.2019.0710"
+                        "publisher": "OpenLogic",
+                        "offer": "CentOS",
+                        "sku": "7.5",
+                        "version": "latest"
                     }
                 },
                 "networkProfile": {
@@ -160,11 +160,6 @@
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 }
-            },
-            "plan": {
-                "name": "docker-community-edition-with-centos-7-6",
-                "publisher": "cognosys",
-                "product": "docker-community-edition-with-centos-7-6"
             }
         }
     ],
