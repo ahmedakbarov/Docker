@@ -1,12 +1,6 @@
-FROM python:3
+FROM python:2.7
 
-WORKDIR /app
-
-COPY . /app
-RUN pip install -r requirements.txt
-RUN pip install --upgrade pip
-
-EXPOSE 8000
-ENTRYPOINT [ "python" ]
-
-CMD ["python", "./app.py" ]
+RUN pip install FLask
+COPY . /
+ENV FLASK_APP=hello.py
+CMD flask run

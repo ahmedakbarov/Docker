@@ -106,7 +106,7 @@
       "adminPassword": {
         "reference": {
             "keyVault": {
-            "id": "/subscriptions/ad599f39-d79e-4a58-b465-008cedcedd30/resourceGroups/docker/providers/Microsoft.KeyVault/vaults/keyforssh1"
+            "id": "/subscriptions/ad599f39-d79e-4a58-b465-008cedcedd30/resourceGroups/docker/providers/Microsoft.KeyVault/vaults/keyforssh2"
             },
             "secretName": "azadmin"
           }

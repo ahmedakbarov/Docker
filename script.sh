@@ -17,7 +17,9 @@ sudo yum install -y yum-utils \
     https://download.docker.com/linux/centos/docker-ce.repo
 
 # INSTALL DOCKER ENGINE - COMMUNITY
-    sudo yum install docker-ce docker-ce-cli containerd.io
+    sudo yum -y install docker-ce docker-ce-cli containerd.io
     sudo systemctl start docker
 # Verify that Docker Engine - Community is installed correctly
 sudo docker run hello-world
+#Insall Git
+yum -y install git
