@@ -27,6 +27,13 @@ steps:
 - task: SSH@0
   inputs:
     sshEndpoint: 'docker01'
-    runOptions: 'script'
-    scriptPath: 'script.sh'
+    runOptions: 'inline'
+    inline: |
+      cd ~/Docker
+      git remote set-url origin https://github.com/ahmedakbarov/Docker.git
+      git pull origin master
+      id=$[(( ( RANDOM % 99 )  + 99 ))]
+      $id
+      docker build -t myhellowordimage:$id ./
+      docker run -d -p 5000:5000 --name myhellowordcontainer-$id myhellowordimage:$id
     readyTimeout: '20000'
