@@ -22,9 +22,10 @@ sudo yum install -y yum-utils \
 # Verify that Docker Engine - Community is installed correctly
 sudo docker run hello-world
 #Insall Git
-#yum -y install git
+yum -y install git
 #configure git in your machine
-cd ~/Docker
+git clone 
+cd ~/Docker 
 git remote set-url origin https://github.com/ahmedakbarov/Docker.git
 git pull origin master
 id=$[(( ( RANDOM % 99 )  + 99 ))]
