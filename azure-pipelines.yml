@@ -53,7 +53,7 @@ steps:
       # Verify that Docker Engine - Community is installed correctly
       sudo docker run hello-world
       #Insall Git
-      #yum -y install git
+      yum -y install git
       #configure git in your machine
       cd ~
       git clone https://github.com/ahmedakbarov/Docker.git
