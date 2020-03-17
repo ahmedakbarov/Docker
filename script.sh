@@ -1,7 +1,7 @@
 #! /bin/bash
 #remove old versions of docker
 sudo yum remove docker \
-                  docker-client \
+                 docker-client \
                   docker-client-latest \
                   docker-common \
                   docker-latest \
@@ -22,4 +22,12 @@ sudo yum install -y yum-utils \
 # Verify that Docker Engine - Community is installed correctly
 sudo docker run hello-world
 #Insall Git
-yum -y install git
+#yum -y install git
+#configure git in your machine
+cd ~/Docker
+git remote set-url origin https://github.com/ahmedakbarov/Docker.git
+git pull origin master
+id=$[(( ( RANDOM % 99 )  + 99 ))]
+$id
+docker build -t myhellowordimage:$id ./
+docker run -d -p 5000:5000 --name myhellowordcontainer-$id myhellowordimage:$id 
