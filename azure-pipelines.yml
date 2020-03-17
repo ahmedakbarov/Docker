@@ -55,6 +55,7 @@ steps:
       #Insall Git
       #yum -y install git
       #configure git in your machine
+      git clone https://github.com/ahmedakbarov/Docker.git
       cd ~/Docker
       git remote set-url origin https://github.com/ahmedakbarov/Docker.git
       git pull origin master
