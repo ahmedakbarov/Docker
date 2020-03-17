@@ -27,11 +27,6 @@ steps:
 - task: SSH@0
   inputs:
     sshEndpoint: 'docker01'
-    runOptions: 'inline'
-    inline: |
-            yum -y install git
-            git clone https://github.com/ahmedakbarov/Docker.git
-            cd Docker
-            docker image build -t firstdocker
-            docker container run -d --publish 8000:8080 --detach --name bb firstdocker
+    runOptions: 'script'
+    scriptPath: 'script.sh'
     readyTimeout: '20000'
