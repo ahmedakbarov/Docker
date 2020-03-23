@@ -1,9 +1,6 @@
 from flask import Flask
 app = Flask(__name__)
 
-#@app.route('/')
-#def hello_world():
-#   return 'Hello, World! ahmed'
 @app.route('/')
-def index():
-    return index.html
+def hello_world():
+   return 'Hello, World! ahmed'
