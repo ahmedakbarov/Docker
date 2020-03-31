@@ -1,0 +1,16 @@
+apiVersion : apps/v1beta1
+kind: Deployment
+metadata:
+  name: "azsk"
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: "azsk"
+    spec:
+      containers:
+        - name: "azsk"
+          image: "containerahmd.azurecr.io/azsk"
+          ports:
+          - containerPort: 5000
